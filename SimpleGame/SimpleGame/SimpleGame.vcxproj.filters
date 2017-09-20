@@ -16,6 +16,18 @@
     <Filter Include="소스 파일\Shaders">
       <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Objects">
+      <UniqueIdentifier>{f487b6bd-b14f-411c-967a-fe9120a0a30f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Objects\SolidCube">
+      <UniqueIdentifier>{b38153f8-4fa1-4aa0-83a0-a6d7893b90a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Utility">
+      <UniqueIdentifier>{d729ef16-6cef-4f01-9e2d-3c6cf26c3d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Utility\Timer">
+      <UniqueIdentifier>{3254f498-bb36-4e8b-81af-e2745d141add}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,6 +42,18 @@
     <ClInclude Include="Renderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicVector.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidCube.h">
+      <Filter>소스 파일\Objects\SolidCube</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>소스 파일\Utility\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -40,6 +64,15 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidCube.cpp">
+      <Filter>소스 파일\Objects\SolidCube</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>소스 파일\Utility\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

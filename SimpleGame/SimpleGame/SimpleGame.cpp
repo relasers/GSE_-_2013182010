@@ -9,13 +9,22 @@ but WITHOUT ANY WARRANTY.
 */
 
 #include "stdafx.h"
+
 #include <iostream>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 
 #include "Renderer.h"
 
+#include "SolidCube.h"
+#include "Timer.h"
+
 Renderer *g_Renderer = NULL;
+CSolidCube* Cube;
+CGameTimer gametimer;
+
+int v = 0;
+Vector2i pos;
 
 void RenderScene(void)
 {
@@ -23,13 +32,21 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
-
+	g_Renderer->DrawSolidRect( pos.x+ 100 * cos(v*3.14/180) , pos.y + 100*sin(v*3.14 / 180), 0, 4, 1, 0, 1, 1);
+	Cube->Render();
+	
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
+	gametimer.Tick(0.0f);
+
+	v += gametimer.GetTimeElapsed() * 100;
+	if (v > 360) v -= 360;
+
+	Cube->Update( gametimer.GetTimeElapsed() );
+
 	RenderScene();
 }
 
@@ -54,7 +71,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(CLIENT_WIDTH, CLIENT_HEIGHT);
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -74,6 +91,14 @@ int main(int argc, char **argv)
 		std::cout << "Renderer could not be initialized.. \n";
 	}
 
+
+	Cube = new CSolidCube(g_Renderer);
+	Cube->SetPosition({ 10,10,0 });
+	Cube->SetSize(20);
+	Cube->SetColor({0,1,0,1});
+
+	gametimer.Reset();
+
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
 	glutKeyboardFunc(KeyInput);
@@ -83,7 +108,7 @@ int main(int argc, char **argv)
 	glutMainLoop();
 
 	delete g_Renderer;
-
+	delete Cube;
     return 0;
 }
 
