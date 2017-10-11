@@ -13,14 +13,22 @@ struct Vector2D {
 	Vector2D& operator=(const Ty(&other)[2]) { x = other[0]; y = other[1]; return *this; }
 	Vector2D& operator=(const Vector2D& other) { x = other.x; y = other.y;  return *this; }
 
+	Vector2D& operator+=(const Vector2D& other) { x += other.x; y += other.y; return *this; }
+	Vector2D& operator-=(const Vector2D& other) { x -= other.x; y -= other.y; return *this; }
+	Vector2D& operator*=(const float f) { x *= f; y *= f; return *this; }
+
 	bool operator==(const Vector2D& other) const { return { Length(other - *this) < 0.00000001f }; }
 };
 
+template<typename Ty> using Vec2D = Vector2D<Ty>;
 using Vector2i = Vector2D<int>;
+using Vector2d = Vector2D<double>;
 using Vector2f = Vector2D<float>;
 
-template<typename Ty> inline float Length(const Vector2D<Ty>& Vec) { return(sqrt(Vec.x * Vec.x + Vec.y * Vec.y)); }
+template<typename Ty> inline float Length(const Vec2D<Ty>& Vec) { return(sqrt(Vec.x * Vec.x + Vec.y * Vec.y)); }
 
+template<typename Ty> inline Vec2D<Ty>	operator*(const float a, const Vec2D<Ty>& b) { return Vec2D<Ty>(a * b.x, a * b.y); }
+template<typename Ty> inline Vec2D<Ty>	operator*(const Vec2D<Ty>& a, const float b) { return Vec2D<Ty>(b * a.x, b * a.y); }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Ty>
@@ -35,13 +43,22 @@ struct Vector3D {
 	Vector3D& operator=(const Ty(&other)[3]) { x = other[0]; y = other[1]; z = other[2]; return *this; }
 	Vector3D& operator=(const Vector3D& other) { x = other.x; y = other.y; z = other.z; return *this; }
 
+	Vector3D& operator+=(const Vector3D& other) { x += other.x; y += other.y; z += other.z; return *this; }
+	Vector3D& operator-=(const Vector3D& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
+	Vector3D& operator*=(const float f) { x *= f; y *= f; z *= f; return *this; }
+
 	bool operator==(const Vector3D& other) const { return { Length(other - *this) < 0.00000001f }; }
 };
 
+template<typename Ty> using Vec3D = Vector3D<Ty>;
 using Vector3i = Vector3D<int>;
+using Vector3d = Vector3D<double>;
 using Vector3f = Vector3D<float>;
 
-template<typename Ty> inline float Length(const Vector3D<Ty>& Vec) { return(sqrt(Vec.x * Vec.x + Vec.y * Vec.y + Vec.z * Vec.z)); }
+template<typename Ty> inline float Length(const Vec3D<Ty>& Vec) { return(sqrt(Vec.x * Vec.x + Vec.y * Vec.y + Vec.z * Vec.z)); }
+
+template<typename Ty> inline Vec3D<Ty>	operator*(const float a, const Vec3D<Ty>& b) { return Vec3D<Ty>(a * b.x, a * b.y, a * b.z); }
+template<typename Ty> inline Vec3D<Ty>	operator*(const Vec3D<Ty>& a, const float b) { return Vec3D<Ty>(b * a.x, b * a.y, b * a.z); }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

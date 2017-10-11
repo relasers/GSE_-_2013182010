@@ -11,6 +11,7 @@ but WITHOUT ANY WARRANTY.
 #include "stdafx.h"
 
 #include <iostream>
+#include <vector>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 
@@ -19,8 +20,10 @@ but WITHOUT ANY WARRANTY.
 #include "SolidCube.h"
 #include "Timer.h"
 
+
+
 Renderer *g_Renderer = NULL;
-CSolidCube* Cube;
+vector<CSolidCube*> Cube;
 CGameTimer gametimer;
 
 int v = 0;
@@ -31,27 +34,35 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
-	// Renderer Test
-	g_Renderer->DrawSolidRect( pos.x+ 100 * cos(v*3.14/180) , pos.y + 100*sin(v*3.14 / 180), 0, 4, 1, 0, 1, 1);
-	Cube->Render();
+	for (auto elem : Cube) {
+		elem->Render();
+	}
+	
 	
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
+
 	gametimer.Tick(0.0f);
 
-	v += gametimer.GetTimeElapsed() * 100;
-	if (v > 360) v -= 360;
-
-	Cube->Update( gametimer.GetTimeElapsed() );
+	for (auto elem : Cube) {
+		elem->Update(gametimer.GetTimeElapsed() );
+	}
 
 	RenderScene();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
+	Cube.push_back(new CSolidCube(g_Renderer,
+		{ x - CLIENT_WIDTH/2,CLIENT_HEIGHT / 2 - y,0 },
+		{ 1,0,0 },
+		150, 
+		50,
+		{ 1,0,0,1 }
+	));
 	RenderScene();
 }
 
@@ -92,10 +103,7 @@ int main(int argc, char **argv)
 	}
 
 
-	Cube = new CSolidCube(g_Renderer);
-	Cube->SetPosition({ 10,10,0 });
-	Cube->SetSize(20);
-	Cube->SetColor({0,1,0,1});
+	Cube.push_back(new CSolidCube(g_Renderer, { 0,0,0 }, { 1,0,0 }, 50, 10, {1,0,0,1}));
 
 	gametimer.Reset();
 
@@ -108,7 +116,6 @@ int main(int argc, char **argv)
 	glutMainLoop();
 
 	delete g_Renderer;
-	delete Cube;
     return 0;
 }
 
