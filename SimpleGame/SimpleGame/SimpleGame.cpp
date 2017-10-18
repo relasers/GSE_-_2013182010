@@ -17,28 +17,23 @@ but WITHOUT ANY WARRANTY.
 
 #include "Renderer.h"
 
-#include "SolidCube.h"
+
 #include "Timer.h"
+#include "SceneMgr.h"
 
 
 
-Renderer *g_Renderer = NULL;
-vector<CSolidCube*> Cube;
 CGameTimer gametimer;
+CSceneMgr SceneMgr;
 
-int v = 0;
-Vector2i pos;
 
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
-	for (auto elem : Cube) {
-		elem->Render();
-	}
-	
-	
+	SceneMgr.Render();
+
 	glutSwapBuffers();
 }
 
@@ -47,32 +42,28 @@ void Idle(void)
 
 	gametimer.Tick(0.0f);
 
-	for (auto elem : Cube) {
-		elem->Update(gametimer.GetTimeElapsed() );
-	}
+	SceneMgr.Update(gametimer.GetTimeElapsed());
 
 	RenderScene();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
-	Cube.push_back(new CSolidCube(g_Renderer,
-		{ x - CLIENT_WIDTH/2,CLIENT_HEIGHT / 2 - y,0 },
-		{ 1,0,0 },
-		150, 
-		50,
-		{ 1,0,0,1 }
-	));
+	
+	SceneMgr.Input_MouseButton(button,state,x,y);
+	
 	RenderScene();
 }
 
 void KeyInput(unsigned char key, int x, int y)
 {
+	SceneMgr.Input_Key(key, x, y);
 	RenderScene();
 }
 
 void SpecialKeyInput(int key, int x, int y)
 {
+	SceneMgr.Input_SpecialKey(key,x,y);
 	RenderScene();
 }
 
@@ -95,15 +86,8 @@ int main(int argc, char **argv)
 		std::cout << "GLEW 3.0 not supported\n ";
 	}
 
-	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
-	if (!g_Renderer->IsInitialized())
-	{
-		std::cout << "Renderer could not be initialized.. \n";
-	}
-
-
-	Cube.push_back(new CSolidCube(g_Renderer, { 0,0,0 }, { 1,0,0 }, 50, 10, {1,0,0,1}));
+	
+	SceneMgr.Initialize();
 
 	gametimer.Reset();
 
@@ -115,7 +99,6 @@ int main(int argc, char **argv)
 
 	glutMainLoop();
 
-	delete g_Renderer;
     return 0;
 }
 

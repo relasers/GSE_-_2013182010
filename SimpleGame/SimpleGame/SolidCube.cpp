@@ -22,6 +22,9 @@ CSolidCube::~CSolidCube()
 bool CSolidCube::Render()
 {
 
+	if (isCollisioned) SetColor({1,0,0,0});
+	else SetColor({1,1,1,1});
+
 	m_Renderer->DrawSolidRect(m_Position.x, m_Position.y, m_Position.z, m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	return true;
 }
@@ -50,5 +53,11 @@ bool CSolidCube::Update(float fTimeElapsed)
 		m_Direction.y *= -1; 
 		m_Position.y = CLIENT_HEIGHT / 2;
 	}
+
+	m_boundingbox.left = m_Position.x - m_Size*0.5;
+	m_boundingbox.right = m_Position.x + m_Size*0.5;
+	m_boundingbox.top = m_Position.y + m_Size*0.5;
+	m_boundingbox.bottom = m_Position.y - m_Size*0.5;
+
 	return true;
 }

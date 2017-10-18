@@ -28,6 +28,9 @@
     <Filter Include="소스 파일\Utility\Timer">
       <UniqueIdentifier>{3254f498-bb36-4e8b-81af-e2745d141add}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{0d3e4fd8-98f9-4776-8776-0ce6da68c09d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,6 +57,9 @@
     <ClInclude Include="Timer.h">
       <Filter>소스 파일\Utility\Timer</Filter>
     </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -73,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>소스 파일\Utility\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>소스 파일\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

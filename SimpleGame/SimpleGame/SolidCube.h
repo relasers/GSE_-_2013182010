@@ -4,7 +4,8 @@
 
 class CSolidCube :public CGameObject {
 private:
-
+	BoundingBox m_boundingbox{ 0 };
+	bool isCollisioned{ false };
 public:
 	CSolidCube();
 	CSolidCube(Renderer* Renderer);
@@ -13,4 +14,9 @@ public:
 
 	virtual bool Render();
 	virtual bool Update(float fTimeElapsed);
+
+	BoundingBox GetBoundingBox() const { return m_boundingbox; };
+
+	void SetColor(Color color) { m_Color = color; }
+	void SetCollisioned(bool collisioned) { isCollisioned = collisioned; }
 };

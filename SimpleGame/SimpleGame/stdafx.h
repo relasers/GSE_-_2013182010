@@ -19,3 +19,20 @@
 #define CLIENT_HEIGHT 500
 
 using namespace std;
+
+class BoundingBox{
+public:
+	int left;
+	int	top;
+	int	right;
+	int	bottom;
+public:
+	bool isCollision(BoundingBox boundingbox){
+	
+		if (left > boundingbox.right) return false;
+		if	(right < boundingbox.left) return false;
+		if	(bottom > boundingbox.top) return false;
+		if	(top < boundingbox.bottom) return false;
+		return true;
+	}
+};
