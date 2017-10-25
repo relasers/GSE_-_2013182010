@@ -4,3 +4,8 @@
 *.log
 *.exe
 .vs
+*.pdb
+*.iobj
+*.ipdb
+*.tlog
+
