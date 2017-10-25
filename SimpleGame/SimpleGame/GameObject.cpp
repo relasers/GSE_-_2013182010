@@ -18,10 +18,20 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 	m_Speed = speed;
 	m_Size = size;
 	m_Color = color;
+
+	m_life = 1;
+	m_lifetime = 500;
 }
 
 CGameObject::~CGameObject()
 {
+}
+
+bool CGameObject::LifeCheck()
+{
+	if (m_life <= 0) return true;
+	if (m_lifetime <= 0) return true;
+	return false;
 }
 
 bool CGameObject::Render()

@@ -33,7 +33,7 @@ void CSceneMgr::BuildObjects()
 {
 	
 
-	for (int i = 0; i < 1000; ++i)
+	for (int i = 0; i < MAXOBJECT; ++i)
 	{
 		Vector3f position = {-CLIENT_WIDTH/2 + rand()%CLIENT_WIDTH,-CLIENT_WIDTH / 2 + rand() % CLIENT_WIDTH ,0};
 		Vector3f direction = {-50 + rand()%100 ,-50 + rand() % 100 , 0};
@@ -54,9 +54,10 @@ void CSceneMgr::ReleaseObjects()
 void CSceneMgr::Update(const double TimeElapsed)
 {
 	for (auto& elem : Cube) {
-		
 		elem->Update( TimeElapsed );
 	}
+	
+	
 
 	for (auto& elem : Cube) {
 
@@ -69,12 +70,19 @@ void CSceneMgr::Update(const double TimeElapsed)
 			if (elem->GetBoundingBox().isCollision(elem_2->GetBoundingBox()))
 			{
 				elem->SetCollisioned(true);
+
+				elem->SetLife(elem->GetLife() - 1);
 			}
-
-
 		}
-
 	}
+
+	for (std::vector<CSolidCube*>::iterator iter = Cube.begin(); iter != Cube.end(); ) {
+		if ((*iter)->LifeCheck())
+			iter = Cube.erase(iter);
+		else
+			++iter;
+	}
+
 }
 
 void CSceneMgr::Render()
@@ -99,15 +107,19 @@ void CSceneMgr::Input_MouseButton(int button, int state, int x, int y)
 	case GLUT_LEFT_BUTTON:
 		if (state == GLUT_DOWN)
 		{
-			Vector3f direction = { -50 + rand() % 100 ,-50 + rand() % 100 , 0 };
-			direction = Normalize(direction);
+			if (Cube.size() < MAXOBJECT)
+			{
+				Vector3f direction = { -50 + rand() % 100 ,-50 + rand() % 100 , 0 };
+				direction = Normalize(direction);
 
-			Cube.push_back(new CSolidCube(g_Renderer,
-			{ x - CLIENT_WIDTH / 2,CLIENT_HEIGHT / 2 - y,0 },
-			direction,
-				150,
-				10,
-				{ 1,1,1,1 }));
+				Cube.push_back(new CSolidCube(g_Renderer,
+				{ x - CLIENT_WIDTH / 2,CLIENT_HEIGHT / 2 - y,0 },
+					direction,
+					150,
+					10,
+					{ 1,1,1,1 }));
+			}
+			
 		}
 
 	}

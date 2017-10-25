@@ -13,6 +13,8 @@ protected:
 	float m_Size{0};
 	Color m_Color{0,0,0,1};
 
+	float m_life{ 0 };
+	float m_lifetime{ 0 };
 public:
 	CGameObject();
 	CGameObject(Renderer *Renderer);
@@ -22,6 +24,10 @@ public:
 	void SetPosition(Vector3f position) { m_Position = position; };
 	void SetColor(Color color) { m_Color = color; };
 	void SetSize(float size) { m_Size = size; }
+
+	void SetLife(float life) { m_life = life; }
+	float GetLife() const { return m_life; }
+	bool LifeCheck();
 
 	virtual bool Render();
 	virtual bool Update(float fTimeElapsed);

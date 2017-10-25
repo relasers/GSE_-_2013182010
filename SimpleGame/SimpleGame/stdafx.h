@@ -19,6 +19,7 @@
 #define CLIENT_WIDTH 500
 #define CLIENT_HEIGHT 500
 
+#define MAXOBJECT 10
 using namespace std;
 
 class BoundingBox{
