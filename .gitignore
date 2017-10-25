@@ -3,4 +3,4 @@
 *.obj
 *.log
 *.exe
-,vs/
+.vs

@@ -4,6 +4,12 @@
 
 CSceneMgr::CSceneMgr()
 {
+	g_Renderer = new Renderer(500, 500);
+
+	if (!g_Renderer->IsInitialized())
+	{
+		std::cout << "Renderer could not be initialized.. \n";
+	}
 }
 
 
@@ -14,7 +20,7 @@ CSceneMgr::~CSceneMgr()
 void CSceneMgr::Initialize()
 {
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
+	if(!g_Renderer) g_Renderer = new Renderer(500, 500);
 
 	if (!g_Renderer->IsInitialized())
 	{

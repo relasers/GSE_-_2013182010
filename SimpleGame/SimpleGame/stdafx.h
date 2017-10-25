@@ -15,6 +15,7 @@
 
 #include "Renderer.h"
 
+
 #define CLIENT_WIDTH 500
 #define CLIENT_HEIGHT 500
 

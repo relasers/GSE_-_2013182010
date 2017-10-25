@@ -24,7 +24,7 @@ but WITHOUT ANY WARRANTY.
 
 
 CGameTimer gametimer;
-CSceneMgr SceneMgr;
+CSceneMgr* SceneMgr;
 
 
 void RenderScene(void)
@@ -32,7 +32,7 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
-	SceneMgr.Render();
+	SceneMgr->Render();
 
 	glutSwapBuffers();
 }
@@ -42,28 +42,28 @@ void Idle(void)
 
 	gametimer.Tick(0.0f);
 
-	SceneMgr.Update(gametimer.GetTimeElapsed());
+	SceneMgr->Update(gametimer.GetTimeElapsed());
 
 	RenderScene();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
-	
-	SceneMgr.Input_MouseButton(button,state,x,y);
-	
+
+	SceneMgr->Input_MouseButton(button, state, x, y);
+
 	RenderScene();
 }
 
 void KeyInput(unsigned char key, int x, int y)
 {
-	SceneMgr.Input_Key(key, x, y);
+	SceneMgr->Input_Key(key, x, y);
 	RenderScene();
 }
 
 void SpecialKeyInput(int key, int x, int y)
 {
-	SceneMgr.Input_SpecialKey(key,x,y);
+	SceneMgr->Input_SpecialKey(key, x, y);
 	RenderScene();
 }
 
@@ -86,8 +86,8 @@ int main(int argc, char **argv)
 		std::cout << "GLEW 3.0 not supported\n ";
 	}
 
-	
-	SceneMgr.Initialize();
+	SceneMgr = new CSceneMgr();
+	SceneMgr->Initialize();
 
 	gametimer.Reset();
 
@@ -99,6 +99,6 @@ int main(int argc, char **argv)
 
 	glutMainLoop();
 
-    return 0;
+	return 0;
 }
 
