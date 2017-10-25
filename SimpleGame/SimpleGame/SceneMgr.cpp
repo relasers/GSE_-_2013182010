@@ -71,11 +71,12 @@ void CSceneMgr::Update(const double TimeElapsed)
 			{
 				elem->SetCollisioned(true);
 
-				elem->SetLife(elem->GetLife() - 1);
+				//elem->SetLife(elem->GetLife() - 1);
 			}
 		}
 	}
 
+	
 	for (std::vector<CSolidCube*>::iterator iter = Cube.begin(); iter != Cube.end(); ) {
 		if ((*iter)->LifeCheck())
 			iter = Cube.erase(iter);

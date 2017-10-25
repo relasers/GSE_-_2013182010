@@ -19,7 +19,7 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 	m_Size = size;
 	m_Color = color;
 
-	m_life = 1;
+	m_life = 500;
 	m_lifetime = 500;
 }
 

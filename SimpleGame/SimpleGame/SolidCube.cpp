@@ -31,8 +31,8 @@ bool CSolidCube::Render()
 
 bool CSolidCube::Update(float fTimeElapsed)
 {
-
-	m_lifetime -= fTimeElapsed;
+	m_life -= 1.f;
+	m_lifetime -= 1.f;
 
 	m_Position += m_Direction*m_Speed*fTimeElapsed;
 
