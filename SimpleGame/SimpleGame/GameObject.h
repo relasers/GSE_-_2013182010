@@ -15,8 +15,8 @@
 
 #define SIZE_CHARACTER 10
 #define SIZE_BUILDING 50
-#define SIZE_BULLET 2
-#define SIZE_ARROW 2
+#define SIZE_BULLET 5
+#define SIZE_ARROW 5
 
 #define COLOR_CHARACTER {1,1,1,1}
 #define COLOR_BUILDING {1,0.6942f,0.3978f,1}
