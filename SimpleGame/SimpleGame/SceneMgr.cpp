@@ -81,8 +81,8 @@ void CSceneMgr::Update(const double TimeElapsed)
 		for (auto& elem_2 : Building) {
 			if (elem->GetBoundingBox().isCollision(elem_2->GetBoundingBox()))
 			{
-				elem->SetLife(elem->GetLife() - elem_2->GetLife());
 				elem_2->SetLife(elem_2->GetLife() - elem->GetLife());
+				elem->SetLife(elem->GetLife() - 100);
 			}
 		}
 
