@@ -81,3 +81,4 @@ template<typename Ty> inline Vec2D<Ty>& Normalize(Vec2D<Ty>& Vec) {
 		};
 
 		using Color = ColorVector<float>;
+

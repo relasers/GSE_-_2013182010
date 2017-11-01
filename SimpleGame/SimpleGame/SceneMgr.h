@@ -3,11 +3,19 @@
 #include "SolidCube.h"
 
 
+
+class CSolidCube;
+
 class CSceneMgr
 {
 private:
-	vector<CSolidCube*> Cube;
+	vector<CSolidCube*> Character;
+	vector<CSolidCube*> Building;
+	vector<CSolidCube*> Bullet;
+
 	Renderer *g_Renderer = NULL;
+
+	int tick = 0;
 public:
 	CSceneMgr();
 	~CSceneMgr();

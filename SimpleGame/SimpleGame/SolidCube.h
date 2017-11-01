@@ -1,6 +1,10 @@
+#pragma once
 #include "stdafx.h"
 #include "GameObject.h"
 #include "Renderer.h"
+
+enum class OBJECT_TYPE;
+class GameObject;
 
 class CSolidCube :public CGameObject {
 private:
@@ -9,7 +13,8 @@ private:
 public:
 	CSolidCube();
 	CSolidCube(Renderer* Renderer);
-	CSolidCube(Renderer *Renderer, Vector3f position, Vector3f direction, float speed, float size, Color color);
+	CSolidCube(Renderer *Renderer, Vector3f position, Vector3f direction, OBJECT_TYPE type);
+	CSolidCube(Renderer *Renderer, Vector3f position, Vector3f direction, float speed, float size, Color color, OBJECT_TYPE type);
 	~CSolidCube();
 
 	virtual bool Render();

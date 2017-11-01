@@ -19,7 +19,7 @@
 #define CLIENT_WIDTH 500
 #define CLIENT_HEIGHT 500
 
-#define MAXOBJECT 10
+#define MAXOBJECT 200
 
 using namespace std;
 
@@ -38,4 +38,9 @@ public:
 		if	(top < boundingbox.bottom) return false;
 		return true;
 	}
+};
+
+enum class OBJECT_TYPE {
+	OBJECT_BUILDING, OBJECT_CHARACTER,
+	OBJECT_BULLET, OBJECT_ARROW
 };
