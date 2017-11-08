@@ -12,6 +12,7 @@ private:
 	vector<CSolidCube*> Character;
 	vector<CSolidCube*> Building;
 	vector<CSolidCube*> Bullet;
+	vector<CSolidCube*> Arrow;
 
 	Renderer *g_Renderer = NULL;
 

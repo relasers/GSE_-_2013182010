@@ -32,6 +32,13 @@ bool CSolidCube::Render()
 	//if (isCollisioned) SetColor({1,0,0,0});
 	//else SetColor({1,1,1,1});
 
+	if (m_Type == OBJECT_TYPE::OBJECT_BUILDING)
+	{
+		m_Renderer->DrawTexturedRect(m_Position.x, m_Position.y, m_Position.z, 
+			m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a, m_texCharacter);
+
+	}
+	else
 	m_Renderer->DrawSolidRect(m_Position.x, m_Position.y, m_Position.z, m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	return true;
 }

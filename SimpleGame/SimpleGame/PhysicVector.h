@@ -27,6 +27,9 @@ using Vector2f = Vector2D<float>;
 
 template<typename Ty> inline float Length(const Vec2D<Ty>& Vec) { return(sqrt(Vec.x * Vec.x + Vec.y * Vec.y)); }
 
+template<typename Ty> inline Vec2D<Ty>	operator-(const Vec2D<Ty>& a, const Vec2D<Ty>& b) { return Vec2D<Ty>(a.x - b.x, a.y - b.y); }
+template<typename Ty> inline Vec2D<Ty>	operator+(const Vec2D<Ty>& a, const Vec2D<Ty>& b) { return Vec2D<Ty>(a.x + b.x, a.y + b.y); }
+
 template<typename Ty> inline Vec2D<Ty>	operator*(const float a, const Vec2D<Ty>& b) { return Vec2D<Ty>(a * b.x, a * b.y); }
 template<typename Ty> inline Vec2D<Ty>	operator*(const Vec2D<Ty>& a, const float b) { return Vec2D<Ty>(b * a.x, b * a.y); }
 template<typename Ty> inline Vec2D<Ty>& Normalize(Vec2D<Ty>& Vec) {
@@ -58,6 +61,9 @@ template<typename Ty> inline Vec2D<Ty>& Normalize(Vec2D<Ty>& Vec) {
 	using Vector3f = Vector3D<float>;
 
 	template<typename Ty> inline float Length(const Vec3D<Ty>& Vec) { return(sqrt(Vec.x * Vec.x + Vec.y * Vec.y + Vec.z * Vec.z)); }
+
+	template<typename Ty> inline Vec3D<Ty>	operator-(const Vec3D<Ty>& a, const Vec3D<Ty>& b) { return Vec3D<Ty>(a.x - b.x, a.y - b.y, a.z - b.z); }
+	template<typename Ty> inline Vec3D<Ty>	operator+(const Vec3D<Ty>& a, const Vec3D<Ty>& b) { return Vec3D<Ty>(a.x + b.x, a.y + b.y, a.z + b.z); }
 
 	template<typename Ty> inline Vec3D<Ty>	operator*(const float a, const Vec3D<Ty>& b) { return Vec3D<Ty>(a * b.x, a * b.y, a * b.z); }
 	template<typename Ty> inline Vec3D<Ty>	operator*(const Vec3D<Ty>& a, const float b) { return Vec3D<Ty>(b * a.x, b * a.y, b * a.z); }

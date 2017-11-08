@@ -31,6 +31,7 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Size = SIZE_BUILDING;
 		m_Speed = SPEED_BUILDING;
 		m_Color = COLOR_BUILDING;
+		m_texCharacter = m_Renderer->CreatePngTexture("Textures/Building.png");
 		break;
 	case OBJECT_TYPE::OBJECT_ARROW:
 		m_life = LIFE_ARROW;
@@ -66,8 +67,16 @@ CGameObject::~CGameObject()
 
 bool CGameObject::LifeCheck()
 {
+	
+	if (m_Type == OBJECT_TYPE::OBJECT_ARROW)
+	{
+		if (!m_parent) return true;
+	}
+
 	if (m_life <= 0) return true;
 	if (m_lifetime <= 0) return true;
+
+	
 	return false;
 }
 

@@ -29,6 +29,9 @@ class CGameObject
 {
 protected:
 	Renderer *m_Renderer = nullptr;
+	GLuint m_texCharacter;
+
+	void* m_parent = nullptr;
 	Vector3f m_Position{0,0,0};
 	Vector3f m_Direction{ 0,0,0 };
 
@@ -49,6 +52,7 @@ public:
 	void SetPosition(Vector3f position) { m_Position = position; };
 	void SetColor(Color color) { m_Color = color; };
 	void SetSize(float size) { m_Size = size; }
+	void SetParentPointer(void* parent) { m_parent = parent; };
 
 	void SetLife(float life) { m_life = life; }
 	float GetLife() const { return m_life; }

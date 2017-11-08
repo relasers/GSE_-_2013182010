@@ -57,7 +57,31 @@ void CSceneMgr::Update(const double TimeElapsed)
 {
 	tick++;
 
-	for (auto& elem : Character) { elem->Update( TimeElapsed ); }
+	for (auto& elem : Character) { 
+		elem->Update( TimeElapsed ); 
+		
+		if (tick % 30 == 0)
+		{
+			if (!Building.empty())
+			{
+				Vector3f direction = Building[0]->GetPosition() - elem->GetPosition();
+				direction = Normalize(direction);
+
+				CSolidCube* arrow = new CSolidCube(g_Renderer,
+					elem->GetPosition() + direction*SIZE_CHARACTER, direction, OBJECT_TYPE::OBJECT_ARROW);
+				
+				arrow->SetParentPointer(&(elem));
+
+				Arrow.push_back(arrow);
+				
+			
+			}
+			
+		}
+	
+	
+	
+	}
 	for (auto& elem : Building) { 
 		elem->Update(TimeElapsed);
 	
@@ -72,7 +96,7 @@ void CSceneMgr::Update(const double TimeElapsed)
 	
 	}
 	for (auto& elem : Bullet) { elem->Update(TimeElapsed); }
-	
+	for (auto& elem : Arrow) { elem->Update(TimeElapsed); }
 
 	for (auto& elem : Character) {
 
@@ -94,30 +118,74 @@ void CSceneMgr::Update(const double TimeElapsed)
 			}
 		}
 
+		for (auto& elem_2 : Arrow) {
+			
+			if (elem->GetBoundingBox().isCollision(elem_2->GetBoundingBox()))
+			{
+				elem->SetLife(elem->GetLife() - elem_2->GetLife());
+				elem_2->SetLife(elem_2->GetLife() - 100);
+			}
+		}
 
 
+	}
 
+	/////////////////////////////////////////////////////////////////////////////
 
+	for (auto& elem : Building) {
+		elem->SetCollisioned(false);
+
+		for (auto& elem_2 : Arrow) {
+			if (elem->GetBoundingBox().isCollision(elem_2->GetBoundingBox()))
+			{
+				elem->SetLife(elem->GetLife() - elem_2->GetLife());
+				elem_2->SetLife(elem_2->GetLife() - 100);
+			}
+		}
 	}
 
 	
 	for (std::vector<CSolidCube*>::iterator iter = Building.begin(); iter != Building.end(); ) {
 		if ((*iter)->LifeCheck())
+		{
+			delete * iter;
+			*iter = NULL;
 			iter = Building.erase(iter);
+		}
 		else
 			++iter;
 	}
 
 	for (std::vector<CSolidCube*>::iterator iter = Character.begin(); iter != Character.end(); ) {
 		if ((*iter)->LifeCheck())
+		{
+			delete * iter;
+			*iter = NULL;
 			iter = Character.erase(iter);
+		}
 		else
 			++iter;
 	}
 
 	for (std::vector<CSolidCube*>::iterator iter = Bullet.begin(); iter != Bullet.end(); ) {
 		if ((*iter)->LifeCheck())
+		{
+			delete * iter;
+			*iter = NULL;
 			iter = Bullet.erase(iter);
+		}
+		else
+			++iter;
+	}
+
+	for (std::vector<CSolidCube*>::iterator iter = Arrow.begin(); iter != Arrow.end(); ) {
+		if ((*iter)->LifeCheck())
+		{
+			delete * iter;
+			*iter = NULL;
+
+			iter = Arrow.erase(iter);
+		}
 		else
 			++iter;
 	}
@@ -131,6 +199,8 @@ void CSceneMgr::Render()
 	for (auto& elem : Building) {	elem->Render(); }
 
 	for (auto& elem : Bullet) { elem->Render(); }
+
+	for (auto& elem : Arrow) { elem->Render(); }
 }
 
 void CSceneMgr::Input_Key(unsigned char key, int x, int y)
