@@ -105,8 +105,8 @@ public:
 	Vector3f GetPosition() const { return m_Position; }
 	bool LifeCheck();
 
-	float GetShootTimer() {return m_shootTimer};
-	void SetShootTimer(float timer) {m_shootTimer = timer};
+	float GetShootTimer() const { return m_shootTimer; };
+	void SetShootTimer(float timer) { m_shootTimer = timer; };
 
 	void SetTeam(TEAM_TYPE type);
 	TEAM_TYPE GetTeam() const { return m_Team; }

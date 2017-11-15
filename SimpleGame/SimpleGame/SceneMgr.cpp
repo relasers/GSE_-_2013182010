@@ -69,13 +69,15 @@ void CSceneMgr::ReleaseObjects()
 void CSceneMgr::Update(const double TimeElapsed)
 {
 	
-	placement_tick -= 1;
-	tick +=1;
+	placement_tick += TimeElapsed;
+	spawn_tick += TimeElapsed;
 
 
 	// 붉은 캐릭터 1초당 랜덤한 위치에 생성하기
-	if ((int)tick % 60 == 0)
+	if (spawn_tick > 1.f)
 	{
+		spawn_tick = 0;
+
 		Vector3f direction = { -500 + rand() % 1000 ,-500 + rand() % 1000 , 0 };
 		direction = Normalize(direction);
 
@@ -102,8 +104,10 @@ void CSceneMgr::Update(const double TimeElapsed)
 	for (auto& elem : Character) { 
 		elem->Update( TimeElapsed ); 
 		
-		if ((int)tick % 60 == 0)
+		// 각자의 쿨타임으로 판단한다.
+		if (elem->GetShootTimer() > 1.f)
 		{
+			elem->SetShootTimer(0);
 			// 상대팀 건물이 있으면 
 			if (!Building.empty())
 			{
@@ -153,8 +157,10 @@ void CSceneMgr::Update(const double TimeElapsed)
 	for (auto& elem : Building) { 
 		elem->Update(TimeElapsed);
 	
-		if ((int)tick % 60 == 0)
+		// 건물의 쿨타임으로 판단한다.
+		if (elem->GetShootTimer() > 1.f)
 		{
+			elem->SetShootTimer(0);
 			Vector3f direction = { -500 + rand() % 1000 ,-500 + rand() % 1000 , 0 };
 			direction = Normalize(direction);
 			CSolidCube* bullet = new CSolidCube(g_Renderer,
@@ -304,7 +310,7 @@ void CSceneMgr::Input_MouseButton(int button, int state, int x, int y)
 		{
 			// 유닛 배치 틱이 음수일 떄 배치 가능하도록 한다.
 			// 화면 절반 아래에서만 배치할 수 있도록 한다.
-			if (placement_tick <= 0 && ( CLIENT_HEIGHT / 2 - y) < 0 && Character.size() < MAXOBJECT)
+			if (placement_tick > 2.f  && ( CLIENT_HEIGHT / 2 - y) < 0 && Character.size() < MAXOBJECT)
 			{
 				Vector3f direction = { -500 + rand() % 1000 ,-500 + rand() % 1000 , 0 };
 				direction = Normalize(direction);
@@ -316,7 +322,7 @@ void CSceneMgr::Input_MouseButton(int button, int state, int x, int y)
 				character->SetTeam(TEAM_TYPE::TEAM_BLUE);
 
 				Character.push_back(character);
-				placement_tick = 120; // 2초의 쿨타임을 할당한다.
+				placement_tick = 0; // 2초의 쿨타임을 할당한다.
 				
 			}
 			
