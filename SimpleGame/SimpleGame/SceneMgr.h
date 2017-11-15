@@ -16,7 +16,9 @@ private:
 
 	Renderer *g_Renderer = NULL;
 
-	int tick = 0;
+	float placement_tick = 0; // À¯´Ö ¹èÄ¡ ´ë±â Æ½
+	float tick = 0;
+	float counter = 0;
 public:
 	CSceneMgr();
 	~CSceneMgr();

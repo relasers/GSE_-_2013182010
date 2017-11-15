@@ -24,26 +24,26 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_life = LIFE_CHARACTER;
 		m_Size = SIZE_CHARACTER;
 		m_Speed = SPEED_CHARACTER;
-		m_Color = COLOR_CHARACTER;
+		m_Color = Color_Character[(int)m_Team];
 		break;
 	case OBJECT_TYPE::OBJECT_BUILDING:
 		m_life = LIFE_BUILDING;
 		m_Size = SIZE_BUILDING;
 		m_Speed = SPEED_BUILDING;
-		m_Color = COLOR_BUILDING;
-		m_texCharacter = m_Renderer->CreatePngTexture("Textures/Building.png");
+		m_Color = Color_Building[(int)m_Team];
+		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Building[(int)m_Team].data());
 		break;
 	case OBJECT_TYPE::OBJECT_ARROW:
 		m_life = LIFE_ARROW;
 		m_Size = SIZE_ARROW;
 		m_Speed = SPEED_ARROW;
-		m_Color = COLOR_ARROW;
+		m_Color = Color_Arrow[(int)m_Team];
 		break;
 	case OBJECT_TYPE::OBJECT_BULLET:
 		m_life = LIFE_BULLET;
 		m_Size = SIZE_BULLET;
 		m_Speed = SPEED_BULLET;
-		m_Color = COLOR_BULLET;
+		m_Color = Color_Bullet[(int)m_Team];
 		break;
 	}
 }
@@ -58,7 +58,7 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 	m_Color = color;
 
 	m_life = 500;
-	m_lifetime = 5000;
+	m_lifetime = 50000;
 }
 
 CGameObject::~CGameObject()
@@ -80,6 +80,27 @@ bool CGameObject::LifeCheck()
 	return false;
 }
 
+void CGameObject::SetTeam(TEAM_TYPE type)
+{
+	m_Team = type;
+	switch (m_Type)
+	{
+	case OBJECT_TYPE::OBJECT_CHARACTER:
+		m_Color = Color_Character[(int)m_Team];
+		break;
+	case OBJECT_TYPE::OBJECT_BUILDING:
+		m_Color = Color_Building[(int)m_Team];
+		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Building[(int)m_Team].data());
+		break;
+	case OBJECT_TYPE::OBJECT_ARROW:
+		m_Color = Color_Arrow[(int)m_Team];
+		break;
+	case OBJECT_TYPE::OBJECT_BULLET:
+		m_Color = Color_Bullet[(int)m_Team];
+		break;
+	}
+}
+
 bool CGameObject::Render()
 {
 	return false;
@@ -87,5 +108,6 @@ bool CGameObject::Render()
 
 bool CGameObject::Update(float fTimeElapsed)
 {
+	m_shootTimer += fTimeElapsed;
 	return false;
 }

@@ -6,6 +6,7 @@
 #include <tchar.h>
 
 #include <iostream>
+#include <string>
 #include <cmath>
 
 #include <vector>
@@ -17,7 +18,7 @@
 
 
 #define CLIENT_WIDTH 500
-#define CLIENT_HEIGHT 500
+#define CLIENT_HEIGHT 800
 
 #define MAXOBJECT 200
 
@@ -43,4 +44,8 @@ public:
 enum class OBJECT_TYPE {
 	OBJECT_BUILDING, OBJECT_CHARACTER,
 	OBJECT_BULLET, OBJECT_ARROW
+};
+
+enum class TEAM_TYPE {
+	TEAM_RED, TEAM_BLUE
 };
