@@ -3,9 +3,9 @@
 #include "Renderer.h"
 #include "PhysicVector.h"
 
-#define LIFE_CHARACTER 10
+#define LIFE_CHARACTER 100
 #define LIFE_BUILDING 500
-#define LIFE_BULLET 20
+#define LIFE_BULLET 15
 #define LIFE_ARROW 10
 
 #define SPEED_CHARACTER 300
@@ -13,11 +13,15 @@
 #define SPEED_BULLET 600
 #define SPEED_ARROW 100
 
-#define SIZE_CHARACTER 10
+#define SIZE_CHARACTER 30
 #define SIZE_BUILDING 100
-#define SIZE_BULLET 2
-#define SIZE_ARROW 2
+#define SIZE_BULLET 4
+#define SIZE_ARROW 4
 
+#define LEVEL_CHARACTER 0.2
+#define LEVEL_BUILDING 0.1
+#define LEVEL_BULLET 0.3
+#define LEVEL_ARROW 0.3
 
 
 #define COLOR_RED_CHARACTER {1,0,0,1}
@@ -35,14 +39,20 @@ const string Texture_Building[2] =
 	{ "Textures/Building.png" },{ "Textures/Structure.png" }
 };
 
+const Color Color_TEAM[2] = {
+	{ 1,0,0,1 },	// RED TEAM
+	{ 0,0,1,1 }		// BLUE TEAM
+};
+
 const Color Color_Character[2] = {
 	{ 1,0,0,1 },	// RED TEAM
 	{ 0,0,1,1 }		// BLUE TEAM
 };
 
+//{ 1,0.6942f,0.3978f,1 }
 const Color Color_Building[2] = {
-	{ 1,0.6942f,0.3978f,1 },	// RED TEAM
-	{ 1,0.6942f,0.3978f,1 }		// BLUE TEAM
+	{ 1,0,0,1 },	// RED TEAM
+	{ 0,0,1,1 }		// BLUE TEAM
 };
 
 const Color Color_Bullet[2] = {
@@ -56,9 +66,9 @@ const Color Color_Arrow[2] = {
 };
 
 const Vector3f Position_Building[6] = {
-	{ -CLIENT_WIDTH*0.25,CLIENT_HEIGHT*0.35,0 },
-	{ 0,CLIENT_HEIGHT*0.45,0 },
-	{ CLIENT_WIDTH*0.25,CLIENT_HEIGHT*0.35,0 },	// RED TEAM
+	{ -CLIENT_WIDTH*0.25,CLIENT_HEIGHT*0.25,0 },
+	{ 0,CLIENT_HEIGHT*0.35,0 },
+	{ CLIENT_WIDTH*0.25,CLIENT_HEIGHT*0.25,0 },	// RED TEAM
 	{ -CLIENT_WIDTH*0.25,-CLIENT_HEIGHT*0.35,0 },
 	{ 0,-CLIENT_HEIGHT*0.45,0 },
 	{ CLIENT_WIDTH*0.25,-CLIENT_HEIGHT*0.35,0 }
@@ -84,6 +94,10 @@ protected:
 	OBJECT_TYPE m_Type;
 	TEAM_TYPE m_Team;
 
+	// 렌더링 순서 정의
+	float m_RenderingLevel{0};
+
+	float m_maxlife{ 0 };
 	float m_life{ 0 };
 	float m_lifetime{ 0 };
 

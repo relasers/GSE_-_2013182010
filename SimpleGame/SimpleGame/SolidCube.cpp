@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "SolidCube.h"
 
 CSolidCube::CSolidCube() : CGameObject()
@@ -31,45 +31,70 @@ bool CSolidCube::Render()
 
 	//if (isCollisioned) SetColor({1,0,0,0});
 	//else SetColor({1,1,1,1});
+	if (m_Type == OBJECT_TYPE::OBJECT_BUILDING || m_Type == OBJECT_TYPE::OBJECT_CHARACTER)
+	{
+		// 체력과 최대 체력사이 범위를 0과 1 사이로 정규화
+		// m_Position.y + m_Size*1.2 -> 캐릭터 상단에 체력바가 위치할 수 있도록
+		float guage = (m_life) / (m_maxlife);
+		m_Renderer->DrawSolidRectGauge(m_Position.x, m_Position.y + m_Size, m_Position.z, 
+			m_Size*1.2, 5, m_Color.r, m_Color.g, m_Color.b, m_Color.a, guage, m_RenderingLevel);
+
+	}
+	
 
 	if (m_Type == OBJECT_TYPE::OBJECT_BUILDING)
 	{
 		m_Renderer->DrawTexturedRect(m_Position.x, m_Position.y, m_Position.z, 
-			m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a, m_texCharacter);
+			m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a, m_texCharacter, m_RenderingLevel);
 
 	}
 	else
-	m_Renderer->DrawSolidRect(m_Position.x, m_Position.y, m_Position.z, m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+	m_Renderer->DrawSolidRect(m_Position.x, m_Position.y, m_Position.z, m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a, m_RenderingLevel);
 	return true;
 }
 
 bool CSolidCube::Update(float fTimeElapsed)
 {
 	//m_life -= 1.f;
-	m_lifetime -= 1.f;
+	//m_lifetime -= 1.f;
+	
 	m_shootTimer += fTimeElapsed;
 	m_Position += m_Direction*m_Speed*fTimeElapsed;
 
-	if (m_Position.x < -CLIENT_WIDTH/2) 
-		{ 
-		m_Direction.x *= -1; 
-		m_Position.x = -CLIENT_WIDTH / 2;
+	// 오브젝트 타입이 화살이거나, 총알이면 화면 밖에 닿으면 라이프를 제로로 만들어
+	// 화면 밖을 나가서 사라지는 것처럼 보이도록
+	if (m_Type == OBJECT_TYPE::OBJECT_ARROW || m_Type == OBJECT_TYPE::OBJECT_BULLET)
+	{
+		if (m_Position.x < -CLIENT_WIDTH / 2) m_life = 0;
+		if (m_Position.x > CLIENT_WIDTH / 2) m_life = 0;
+		if (m_Position.y < -CLIENT_HEIGHT / 2) m_life = 0;
+		if (m_Position.y > CLIENT_HEIGHT / 2) m_life = 0;
 	}
-	if (m_Position.x > CLIENT_WIDTH/2) 
-		{ 
-		m_Direction.x *= -1; 
-		m_Position.x = CLIENT_WIDTH/2;
+	// 아니면 화면 안에 계속 있을 수 있도록 반사
+	else 
+	{
+		if (m_Position.x < -CLIENT_WIDTH / 2)
+		{
+			m_Direction.x *= -1;
+			m_Position.x = -CLIENT_WIDTH / 2;
+		}
+		if (m_Position.x > CLIENT_WIDTH / 2)
+		{
+			m_Direction.x *= -1;
+			m_Position.x = CLIENT_WIDTH / 2;
+		}
+		if (m_Position.y < -CLIENT_HEIGHT / 2)
+		{
+			m_Direction.y *= -1;
+			m_Position.y = -CLIENT_HEIGHT / 2;
+		}
+		if (m_Position.y > CLIENT_HEIGHT / 2)
+		{
+			m_Direction.y *= -1;
+			m_Position.y = CLIENT_HEIGHT / 2;
+		}
 	}
-	if (m_Position.y < -CLIENT_HEIGHT / 2)
-		{ 
-		m_Direction.y *= -1; 
-		m_Position.y = -CLIENT_HEIGHT / 2;
-	}
-	if (m_Position.y > CLIENT_HEIGHT/2) 
-		{ 
-		m_Direction.y *= -1; 
-		m_Position.y = CLIENT_HEIGHT / 2;
-	}
+	
 
 	m_boundingbox.left = m_Position.x - m_Size*0.5;
 	m_boundingbox.right = m_Position.x + m_Size*0.5;

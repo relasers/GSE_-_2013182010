@@ -95,9 +95,31 @@ void CSceneMgr::Update(const double TimeElapsed)
 	
 
 
+	/////////////// < 건물 업데이트 > ////////////////
 
 
 
+	for (auto& elem : Building) {
+		elem->Update(TimeElapsed);
+
+		// 건물의 쿨타임으로 판단한다.
+		if (elem->GetShootTimer() > 1.f)
+		{
+			elem->SetShootTimer(0);
+			Vector3f direction = { -500 + rand() % 1000 ,-500 + rand() % 1000 , 0 };
+			direction = Normalize(direction);
+
+			CSolidCube* bullet = new CSolidCube(g_Renderer,
+				elem->GetPosition(), direction, OBJECT_TYPE::OBJECT_BULLET);
+			bullet->SetTeam(elem->GetTeam());
+
+			Bullet.push_back(bullet);
+
+		}
+
+	}
+
+	//////////////////////////////////////////////////
 
 
 
@@ -108,8 +130,17 @@ void CSceneMgr::Update(const double TimeElapsed)
 		if (elem->GetShootTimer() > 1.f)
 		{
 			elem->SetShootTimer(0);
+
+			// 상대팀 건물이 있다면?
+			bool EnemyBuilding_exist = false;
+			for (auto&elem2 : Building)
+			{
+				if (elem->GetTeam() != elem2->GetTeam())
+					EnemyBuilding_exist = true;
+			}
+
 			// 상대팀 건물이 있으면 
-			if (!Building.empty())
+			if (EnemyBuilding_exist)
 			{
 				int target_idx = -1; // 목표 타겟
 				int idx = -1;		// 탐색용 인덱스
@@ -154,31 +185,17 @@ void CSceneMgr::Update(const double TimeElapsed)
 	
 	
 	}
-	for (auto& elem : Building) { 
-		elem->Update(TimeElapsed);
 	
-		// 건물의 쿨타임으로 판단한다.
-		if (elem->GetShootTimer() > 1.f)
-		{
-			elem->SetShootTimer(0);
-			Vector3f direction = { -500 + rand() % 1000 ,-500 + rand() % 1000 , 0 };
-			direction = Normalize(direction);
-			CSolidCube* bullet = new CSolidCube(g_Renderer,
-				elem->GetPosition(), direction, OBJECT_TYPE::OBJECT_BULLET);
-			bullet->SetTeam(elem->GetTeam());
-
-
-			Bullet.push_back(bullet);
-
-		}
-	
-	}
 	for (auto& elem : Bullet) { elem->Update(TimeElapsed); }
 	for (auto& elem : Arrow) { elem->Update(TimeElapsed); }
+
+	///////////////////////////////////////////////////////////////////////////////
 
 	for (auto& elem : Character) {
 
 		elem->SetCollisioned(false);
+
+		// 1, Character <---> Building 데미지
 
 		for (auto& elem_2 : Building) {
 			
@@ -191,6 +208,9 @@ void CSceneMgr::Update(const double TimeElapsed)
 			}
 		}
 
+
+		// 2. Character <---> Bullet 데미지
+
 		for (auto& elem_2 : Bullet) {
 
 			// 팀이 다르다면 상호작용
@@ -201,6 +221,8 @@ void CSceneMgr::Update(const double TimeElapsed)
 				elem_2->SetLife(elem_2->GetLife() - 100);
 			}
 		}
+
+		// 3. Character <---> Arrow 데미지
 
 		for (auto& elem_2 : Arrow) {
 			
@@ -221,6 +243,7 @@ void CSceneMgr::Update(const double TimeElapsed)
 	for (auto& elem : Building) {
 		elem->SetCollisioned(false);
 
+		// 4. Building <---> Arrow 데미지
 
 		for (auto& elem_2 : Arrow) {
 
@@ -231,6 +254,19 @@ void CSceneMgr::Update(const double TimeElapsed)
 				elem->SetLife(elem->GetLife() - elem_2->GetLife());
 				elem_2->SetLife(elem_2->GetLife() - 100);
 			}
+		}
+
+		// 5. Building <---> Bullet 데미지
+
+		for (auto& elem_2 : Bullet) {
+
+			// 팀이 다르다면 상호작용
+			if (elem->GetTeam() != elem_2->GetTeam())
+				if (elem->GetBoundingBox().isCollision(elem_2->GetBoundingBox()))
+				{
+					elem->SetLife(elem->GetLife() - elem_2->GetLife());
+					elem_2->SetLife(elem_2->GetLife() - 100);
+				}
 		}
 	}
 
