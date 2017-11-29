@@ -31,6 +31,9 @@
     <Filter Include="소스 파일\Scene">
       <UniqueIdentifier>{0d3e4fd8-98f9-4776-8776-0ce6da68c09d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Objects\BackGround">
+      <UniqueIdentifier>{f764e81b-b8ad-4388-8c01-8e42bad3358d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,6 +66,9 @@
     <ClInclude Include="LoadPng.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>소스 파일\Objects\BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="LoadPng.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>소스 파일\Objects\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

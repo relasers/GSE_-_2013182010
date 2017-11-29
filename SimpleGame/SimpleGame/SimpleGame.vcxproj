@@ -155,6 +155,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackGround.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="LoadPng.h" />
     <ClInclude Include="Renderer.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="LoadPng.cpp" />
     <ClCompile Include="Renderer.cpp" />

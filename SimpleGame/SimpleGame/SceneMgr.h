@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "SolidCube.h"
-
+#include "BackGround.h"
 
 
 class CSolidCube;
@@ -9,6 +9,8 @@ class CSolidCube;
 class CSceneMgr
 {
 private:
+	CBackGround*		m_pBackGround;
+
 	vector<CSolidCube*> Character;
 	vector<CSolidCube*> Building;
 	vector<CSolidCube*> Bullet;

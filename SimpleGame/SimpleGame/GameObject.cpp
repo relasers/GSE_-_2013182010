@@ -26,6 +26,10 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Size = SIZE_CHARACTER;
 		m_Speed = SPEED_CHARACTER;
 		m_Color = Color_Character[(int)m_Team];
+
+		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)m_Team].data());
+		m_maxframe = Sprite_Unit_Seq[(int)m_Team];
+
 		m_RenderingLevel = LEVEL_CHARACTER;
 		break;
 	case OBJECT_TYPE::OBJECT_BUILDING:
@@ -35,6 +39,9 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Speed = SPEED_BUILDING;
 		m_Color = Color_Building[(int)m_Team];
 		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Building[(int)m_Team].data());
+
+		m_maxframe = Sprite_Building_Seq[(int)m_Team];
+
 		m_RenderingLevel = LEVEL_BUILDING;
 		break;
 	case OBJECT_TYPE::OBJECT_ARROW:
@@ -51,12 +58,16 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Size = SIZE_BULLET;
 		m_Speed = SPEED_BULLET;
 		m_Color = Color_Bullet[(int)m_Team];
+
+		m_texParticle = m_Renderer->CreatePngTexture((char*)Texture_Particle[(int)m_Team].data());
+
 		m_RenderingLevel = LEVEL_BULLET;
 		break;
 	}
 }
 
-CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direction, float speed, float size, Color color, OBJECT_TYPE type)
+CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direction, 
+	float speed, float size, Color color, OBJECT_TYPE type)
 {
 	m_Renderer = Renderer;
 	m_Position = position;
@@ -71,6 +82,11 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 
 CGameObject::~CGameObject()
 {
+}
+
+void CGameObject::SetTexture(char * texture)
+{
+	m_texCharacter = m_Renderer->CreatePngTexture(texture);
 }
 
 bool CGameObject::LifeCheck()
@@ -95,16 +111,20 @@ void CGameObject::SetTeam(TEAM_TYPE type)
 	{
 	case OBJECT_TYPE::OBJECT_CHARACTER:
 		m_Color = Color_Character[(int)m_Team];
+		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)m_Team].data());
+		m_maxframe = Sprite_Unit_Seq[(int)m_Team];
 		break;
 	case OBJECT_TYPE::OBJECT_BUILDING:
 		m_Color = Color_Building[(int)m_Team];
 		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Building[(int)m_Team].data());
+		m_maxframe = Sprite_Building_Seq[(int)m_Team];
 		break;
 	case OBJECT_TYPE::OBJECT_ARROW:
 		m_Color = Color_Arrow[(int)m_Team];
 		break;
 	case OBJECT_TYPE::OBJECT_BULLET:
 		m_Color = Color_Bullet[(int)m_Team];
+		m_texParticle = m_Renderer->CreatePngTexture((char*)Texture_Particle[(int)m_Team].data());
 		break;
 	}
 }

@@ -46,8 +46,8 @@ void CSceneMgr::BuildObjects()
 		Building.push_back(building);
 	}
 	
-
-
+	m_pBackGround = new CBackGround(g_Renderer, Vector3f{ 0,0,0 }, (float)CLIENT_WIDTH, (float)CLIENT_HEIGHT, Color{0.7f,0.7f,0.7f,1});
+	m_pBackGround->SetTexture("Textures/BackGround.png");
 	//for (int i = 0; i < MAXOBJECT; ++i)
 	//{
 	//	Vector3f position = {-CLIENT_WIDTH/2 + rand()%CLIENT_WIDTH,-CLIENT_WIDTH / 2 + rand() % CLIENT_WIDTH ,0};
@@ -320,6 +320,9 @@ void CSceneMgr::Update(const double TimeElapsed)
 
 void CSceneMgr::Render()
 {
+
+	m_pBackGround->Render();
+
 	for (auto& elem : Building) {	elem->Render(); }
 
 	for (auto& elem : Character) {	elem->Render(); }

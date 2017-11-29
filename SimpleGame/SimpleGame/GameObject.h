@@ -36,8 +36,31 @@
 
 const string Texture_Building[2] = 
 {
-	{ "Textures/Building.png" },{ "Textures/Structure.png" }
+	{ "./Textures/Barn-Sheet.png" },{ "./Textures/Outpost2-Sheet.png" }
 };
+
+const string Texture_Unit[2] =
+{
+	{ "./Textures/TheGeminiXii-Sheet.png" },{ "./Textures/Crinoid-Sheet.png" }
+};
+
+const string Texture_Particle[2] =
+{
+	{ "./Textures/Flame.png" },{ "./Textures/Snow.png" }
+};
+
+
+
+const int Sprite_Building_Seq[2] = {
+	{ 8 },	// Barn
+	{ 10 }		// OutPost
+};
+
+const int Sprite_Unit_Seq[2] = {
+	{ 9 },	// Gemini
+	{ 5 }		// Crinoid
+};
+
 
 const Color Color_TEAM[2] = {
 	{ 1,0,0,1 },	// RED TEAM
@@ -56,8 +79,10 @@ const Color Color_Building[2] = {
 };
 
 const Color Color_Bullet[2] = {
-	{ 1,0,0,1 },	// RED TEAM
-	{ 0,0,1,1 }		// BLUE TEAM
+	//{ 1,0,0,1 },	// RED TEAM
+	//{ 0,0,1,1 }		// BLUE TEAM
+	{ 1,1,1,1 },	// RED TEAM
+	{ 1,1,1,1 }		// BLUE TEAM
 };
 
 const Color Color_Arrow[2] = {
@@ -83,6 +108,7 @@ class CGameObject
 protected:
 	Renderer *m_Renderer = nullptr;
 	GLuint m_texCharacter;
+	GLuint m_texParticle;
 
 	void* m_parent = nullptr;
 	Vector3f m_Position{0,0,0};
@@ -97,11 +123,16 @@ protected:
 	// 렌더링 순서 정의
 	float m_RenderingLevel{0};
 
-	float m_maxlife{ 0 };
-	float m_life{ 0 };
+	float m_maxlife{ 1 };
+	float m_life{ 1 };
 	float m_lifetime{ 0 };
 
 	float m_shootTimer = 0;
+
+	float m_frametick;
+	float m_particletick;
+
+	float m_maxframe;
 public:
 	CGameObject();
 	CGameObject(Renderer *Renderer);
@@ -113,6 +144,9 @@ public:
 	void SetColor(Color color) { m_Color = color; };
 	void SetSize(float size) { m_Size = size; }
 	void SetParentPointer(void* parent) { m_parent = parent; };
+
+	// 텍스쳐 이름으로 텍스쳐 셋하기
+	void SetTexture(char* texture);
 
 	void SetLife(float life) { m_life = life; }
 	float GetLife() const { return m_life; }
