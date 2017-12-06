@@ -39,6 +39,14 @@ bool CSolidCube::Render()
 		m_Renderer->DrawSolidRectGauge(m_Position.x, m_Position.y + m_Size, m_Position.z, 
 			m_Size*1.2, 5, m_Color.r, m_Color.g, m_Color.b, m_Color.a, guage, m_RenderingLevel);
 
+		string remain_guage = to_string((int)m_life);
+
+		m_Renderer->DrawSolidText(m_Position.x, m_Position.y + m_Size, GLUT_BITMAP_9_BY_15,
+			1,1,1, (char*)remain_guage.c_str());
+
+		//m_Renderer->DrawSolidText(m_Position.x, m_Position.y + m_Size, GLUT_BITMAP_HELVETICA_10,
+		//	1,1,1, "100");
+
 	}
 
 	if (m_Type == OBJECT_TYPE::OBJECT_BULLET)

@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "SolidCube.h"
 #include "BackGround.h"
-
+#include "Sound.h"
 
 class CSolidCube;
 
@@ -10,6 +10,12 @@ class CSceneMgr
 {
 private:
 	CBackGround*		m_pBackGround;
+	Sound*				m_pSound;
+
+	int					m_Sound_BGM;
+	int					m_Sound_Explosion;
+
+	float				m_ShakeFactor;
 
 	vector<CSolidCube*> Character;
 	vector<CSolidCube*> Building;

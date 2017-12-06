@@ -18,11 +18,11 @@
 #define SIZE_BULLET 4
 #define SIZE_ARROW 4
 
-#define LEVEL_CHARACTER 0.2
-#define LEVEL_BUILDING 0.1
+#define LEVEL_GROUND_CHARACTER 0.4
+#define LEVEL_AIR_CHARACTER 0.1
+#define LEVEL_BUILDING 0.2
 #define LEVEL_BULLET 0.3
 #define LEVEL_ARROW 0.3
-
 
 #define COLOR_RED_CHARACTER {1,0,0,1}
 #define COLOR_RED_BUILDING {1,0.6942f,0.3978f,1}
@@ -36,17 +36,20 @@
 
 const string Texture_Building[2] = 
 {
-	{ "./Textures/Barn-Sheet.png" },{ "./Textures/Outpost2-Sheet.png" }
+	{ "./Textures/Barn-Sheet.png" },
+	{ "./Textures/Outpost2-Sheet.png" }
 };
 
 const string Texture_Unit[2] =
 {
-	{ "./Textures/TheGeminiXii-Sheet.png" },{ "./Textures/Crinoid-Sheet.png" }
+	{ "./Textures/Crinoid-Sheet.png" },
+	{ "./Textures/TheGeminiXii-Sheet.png" }
 };
 
 const string Texture_Particle[2] =
 {
-	{ "./Textures/Flame.png" },{ "./Textures/Snow.png" }
+	{ "./Textures/Flame.png" },
+	{ "./Textures/Snow.png" }
 };
 
 
@@ -57,8 +60,8 @@ const int Sprite_Building_Seq[2] = {
 };
 
 const int Sprite_Unit_Seq[2] = {
-	{ 9 },	// Gemini
-	{ 5 }		// Crinoid
+	{ 5 },		// Crinoid
+	{ 9 }		// Gemini
 };
 
 
@@ -68,14 +71,14 @@ const Color Color_TEAM[2] = {
 };
 
 const Color Color_Character[2] = {
-	{ 1,0,0,1 },	// RED TEAM
-	{ 0,0,1,1 }		// BLUE TEAM
+	{ 1,0.7f,0.7f,1 },	// RED TEAM
+	{ 0.7f,0.7f,1,1 }		// BLUE TEAM
 };
 
 //{ 1,0.6942f,0.3978f,1 }
 const Color Color_Building[2] = {
-	{ 1,0,0,1 },	// RED TEAM
-	{ 0,0,1,1 }		// BLUE TEAM
+	{ 1,0.7f,0.7f,1 },	// RED TEAM
+	{ 0.7f,0.7f,1,1 }		// BLUE TEAM
 };
 
 const Color Color_Bullet[2] = {
@@ -102,6 +105,7 @@ const Vector3f Position_Building[6] = {
 
 enum class OBJECT_TYPE;
 enum class TEAM_TYPE;
+enum class DEPTH_TYPE;
 
 class CGameObject
 {

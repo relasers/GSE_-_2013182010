@@ -18,6 +18,8 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 	m_Type = type;
 	m_lifetime = 5000;
 
+	int x = rand() % 2;
+	
 	switch (m_Type)
 	{
 	case OBJECT_TYPE::OBJECT_CHARACTER:
@@ -27,10 +29,23 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Speed = SPEED_CHARACTER;
 		m_Color = Color_Character[(int)m_Team];
 
-		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)m_Team].data());
-		m_maxframe = Sprite_Unit_Seq[(int)m_Team];
+		
 
-		m_RenderingLevel = LEVEL_CHARACTER;
+		if (x == 0)
+		{
+			m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)DEPTH_TYPE::DEPTH_GROUND].data());
+			m_maxframe = Sprite_Unit_Seq[(int)DEPTH_TYPE::DEPTH_GROUND];
+
+			m_RenderingLevel = LEVEL_GROUND_CHARACTER;
+		}
+		else 
+		{
+			m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)DEPTH_TYPE::DEPTH_AIR].data());
+			m_maxframe = Sprite_Unit_Seq[(int)DEPTH_TYPE::DEPTH_AIR];
+
+			m_RenderingLevel = LEVEL_AIR_CHARACTER;
+		}
+		
 		break;
 	case OBJECT_TYPE::OBJECT_BUILDING:
 		m_life = LIFE_BUILDING;
@@ -111,8 +126,6 @@ void CGameObject::SetTeam(TEAM_TYPE type)
 	{
 	case OBJECT_TYPE::OBJECT_CHARACTER:
 		m_Color = Color_Character[(int)m_Team];
-		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)m_Team].data());
-		m_maxframe = Sprite_Unit_Seq[(int)m_Team];
 		break;
 	case OBJECT_TYPE::OBJECT_BUILDING:
 		m_Color = Color_Building[(int)m_Team];

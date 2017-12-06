@@ -50,3 +50,8 @@ enum class OBJECT_TYPE {
 enum class TEAM_TYPE {
 	TEAM_RED, TEAM_BLUE
 };
+
+
+enum class DEPTH_TYPE {
+	DEPTH_GROUND, DEPTH_AIR
+};

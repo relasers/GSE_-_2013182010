@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\Objects\BackGround">
       <UniqueIdentifier>{f764e81b-b8ad-4388-8c01-8e42bad3358d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utility\Sound">
+      <UniqueIdentifier>{26b87b41-60ea-4752-b520-048c70713e2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -69,6 +72,9 @@
     <ClInclude Include="BackGround.h">
       <Filter>소스 파일\Objects\BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>소스 파일\Utility\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <Filter>소스 파일\Objects\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>소스 파일\Utility\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

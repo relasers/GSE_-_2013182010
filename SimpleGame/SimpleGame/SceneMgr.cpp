@@ -26,6 +26,14 @@ void CSceneMgr::Initialize()
 	{
 		std::cout << "Renderer could not be initialized.. \n";
 	}
+
+	m_pSound = new Sound();
+
+	m_Sound_BGM = m_pSound->CreateSound("Sounds/MF-W-90.XM");
+	m_Sound_Explosion = m_pSound->CreateSound("Sounds/explosion.wav");
+	m_pSound->PlaySound(m_Sound_BGM, true, 0.2f);
+	
+
 	BuildObjects();
 }
 
@@ -72,6 +80,8 @@ void CSceneMgr::Update(const double TimeElapsed)
 	placement_tick += TimeElapsed;
 	spawn_tick += TimeElapsed;
 
+	m_ShakeFactor -= TimeElapsed;
+	if (m_ShakeFactor < 0) m_ShakeFactor = 0;
 
 	// 붉은 캐릭터 1초당 랜덤한 위치에 생성하기
 	if (spawn_tick > 1.f)
@@ -277,6 +287,8 @@ void CSceneMgr::Update(const double TimeElapsed)
 			delete * iter;
 			*iter = NULL;
 			iter = Building.erase(iter);
+			m_ShakeFactor = 1.f;
+			m_pSound->PlaySound(m_Sound_Explosion, false, 0.3f);
 		}
 		else
 			++iter;
@@ -320,6 +332,9 @@ void CSceneMgr::Update(const double TimeElapsed)
 
 void CSceneMgr::Render()
 {
+	Vector3f direction = { -500 + rand() % 1000 ,-500 + rand() % 1000 , 0 };
+	direction = Normalize(direction);
+	g_Renderer->SetSceneTransform(direction.x * m_ShakeFactor * 12, direction.y * m_ShakeFactor * 12 , 1, 1);
 
 	m_pBackGround->Render();
 
