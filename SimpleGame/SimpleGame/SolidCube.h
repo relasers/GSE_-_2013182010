@@ -24,4 +24,6 @@ public:
 
 	void SetColor(Color color) { m_Color = color; }
 	void SetCollisioned(bool collisioned) { isCollisioned = collisioned; }
+	void SetTexturePtr(GLuint texture) { m_texCharacter = texture; }
+	void SetPartTexturePtr(GLuint texture) { m_texParticle = texture; }
 };

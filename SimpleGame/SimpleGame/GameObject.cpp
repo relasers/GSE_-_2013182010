@@ -29,20 +29,16 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Speed = SPEED_CHARACTER;
 		m_Color = Color_Character[(int)m_Team];
 
-		
-
 		if (x == 0)
 		{
-			m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)DEPTH_TYPE::DEPTH_GROUND].data());
 			m_maxframe = Sprite_Unit_Seq[(int)DEPTH_TYPE::DEPTH_GROUND];
-
+			m_DepthType = DEPTH_TYPE::DEPTH_GROUND;
 			m_RenderingLevel = LEVEL_GROUND_CHARACTER;
 		}
 		else 
 		{
-			m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Unit[(int)DEPTH_TYPE::DEPTH_AIR].data());
 			m_maxframe = Sprite_Unit_Seq[(int)DEPTH_TYPE::DEPTH_AIR];
-
+			m_DepthType = DEPTH_TYPE::DEPTH_AIR;
 			m_RenderingLevel = LEVEL_AIR_CHARACTER;
 		}
 		
@@ -53,7 +49,6 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Size = SIZE_BUILDING;
 		m_Speed = SPEED_BUILDING;
 		m_Color = Color_Building[(int)m_Team];
-		m_texCharacter = m_Renderer->CreatePngTexture((char*)Texture_Building[(int)m_Team].data());
 
 		m_maxframe = Sprite_Building_Seq[(int)m_Team];
 
@@ -73,9 +68,6 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		m_Size = SIZE_BULLET;
 		m_Speed = SPEED_BULLET;
 		m_Color = Color_Bullet[(int)m_Team];
-
-		m_texParticle = m_Renderer->CreatePngTexture((char*)Texture_Particle[(int)m_Team].data());
-
 		m_RenderingLevel = LEVEL_BULLET;
 		break;
 	}
@@ -122,10 +114,12 @@ bool CGameObject::LifeCheck()
 void CGameObject::SetTeam(TEAM_TYPE type)
 {
 	m_Team = type;
+	int x = rand() % 2;
 	switch (m_Type)
 	{
 	case OBJECT_TYPE::OBJECT_CHARACTER:
 		m_Color = Color_Character[(int)m_Team];
+
 		break;
 	case OBJECT_TYPE::OBJECT_BUILDING:
 		m_Color = Color_Building[(int)m_Team];

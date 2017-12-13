@@ -41,7 +41,7 @@ bool CSolidCube::Render()
 
 		string remain_guage = to_string((int)m_life);
 
-		m_Renderer->DrawSolidText(m_Position.x, m_Position.y + m_Size, GLUT_BITMAP_9_BY_15,
+		m_Renderer->DrawTextW(m_Position.x, m_Position.y + m_Size, GLUT_BITMAP_9_BY_15,
 			1,1,1, (char*)remain_guage.c_str());
 
 		//m_Renderer->DrawSolidText(m_Position.x, m_Position.y + m_Size, GLUT_BITMAP_HELVETICA_10,
@@ -53,7 +53,8 @@ bool CSolidCube::Render()
 	{
 		m_Renderer->DrawParticle(m_Position.x, m_Position.y, m_Position.z, 
 			m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a
-			, -m_Direction.x, -m_Direction.y, m_texParticle, m_particletick);
+			, -m_Direction.x, -m_Direction.y, m_texParticle, m_particletick, 
+			m_RenderingLevel + 0.5);
 
 	}
 	
@@ -81,6 +82,7 @@ bool CSolidCube::Update(float fTimeElapsed)
 	if (m_frametick > m_maxframe) m_frametick - m_maxframe;
 
 	m_particletick += fTimeElapsed;
+	m_changedir_tick += fTimeElapsed;
 
 	m_shootTimer += fTimeElapsed;
 	m_Position += m_Direction*m_Speed*fTimeElapsed;

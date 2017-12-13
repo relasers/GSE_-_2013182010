@@ -53,5 +53,5 @@ enum class TEAM_TYPE {
 
 
 enum class DEPTH_TYPE {
-	DEPTH_GROUND, DEPTH_AIR
+	DEPTH_GROUND =0 , DEPTH_AIR = 1
 };

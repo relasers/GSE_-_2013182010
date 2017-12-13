@@ -47,3 +47,49 @@ bool CBackGround::Update(float fTimeElapsed)
 {
 	return false;
 }
+
+CClimate::CClimate()
+{
+}
+
+CClimate::CClimate(Renderer * Renderer)
+{
+	m_Renderer = Renderer;
+
+	m_life = 1;
+	m_maxlife = 1;
+
+	m_RenderingLevel = 0.1;
+}
+
+CClimate::CClimate(Renderer * Renderer, Vector3f position, float size,  Color color)
+{
+	m_Renderer = Renderer;
+	m_Position = position;
+	m_Color = color;
+
+	m_Size = size;
+
+	m_life = 1;
+	m_maxlife = 1;
+
+	m_RenderingLevel = 0.1;
+}
+
+CClimate::~CClimate()
+{
+}
+
+bool CClimate::Render()
+{
+
+	m_Renderer->DrawParticleClimate(m_Position.x, m_Position.y, m_Position.z,
+		m_Size, m_Color.r, m_Color.g, m_Color.b, m_Color.a, 0, -1, m_texCharacter, m_climatetick,m_RenderingLevel);
+	return true;
+}
+
+bool CClimate::Update(float fTimeElapsed)
+{
+	m_climatetick += fTimeElapsed;
+	return true;
+}

@@ -18,11 +18,11 @@
 #define SIZE_BULLET 4
 #define SIZE_ARROW 4
 
-#define LEVEL_GROUND_CHARACTER 0.4
-#define LEVEL_AIR_CHARACTER 0.1
-#define LEVEL_BUILDING 0.2
-#define LEVEL_BULLET 0.3
-#define LEVEL_ARROW 0.3
+#define LEVEL_GROUND_CHARACTER 0.5
+#define LEVEL_AIR_CHARACTER 0.2
+#define LEVEL_BUILDING 0.3
+#define LEVEL_BULLET 0.4
+#define LEVEL_ARROW 0.4
 
 #define COLOR_RED_CHARACTER {1,0,0,1}
 #define COLOR_RED_BUILDING {1,0.6942f,0.3978f,1}
@@ -71,8 +71,8 @@ const Color Color_TEAM[2] = {
 };
 
 const Color Color_Character[2] = {
-	{ 1,0.7f,0.7f,1 },	// RED TEAM
-	{ 0.7f,0.7f,1,1 }		// BLUE TEAM
+	{ 1,0.3f,0.3f,1 },	// RED TEAM
+	{ 0.3f,0.3f,1,1 }		// BLUE TEAM
 };
 
 //{ 1,0.6942f,0.3978f,1 }
@@ -123,6 +123,7 @@ protected:
 	Color m_Color{0,0,0,1};
 	OBJECT_TYPE m_Type;
 	TEAM_TYPE m_Team;
+	DEPTH_TYPE m_DepthType;
 
 	// 렌더링 순서 정의
 	float m_RenderingLevel{0};
@@ -134,7 +135,8 @@ protected:
 	float m_shootTimer = 0;
 
 	float m_frametick;
-	float m_particletick;
+	float m_particletick = 0.0f;
+	float m_changedir_tick = 0.0f;
 
 	float m_maxframe;
 public:
@@ -145,6 +147,8 @@ public:
 	~CGameObject();
 
 	void SetPosition(Vector3f position) { m_Position = position; };
+	void SetDirection(Vector3f direction) { m_Direction = direction; };
+
 	void SetColor(Color color) { m_Color = color; };
 	void SetSize(float size) { m_Size = size; }
 	void SetParentPointer(void* parent) { m_parent = parent; };
@@ -155,13 +159,21 @@ public:
 	void SetLife(float life) { m_life = life; }
 	float GetLife() const { return m_life; }
 	Vector3f GetPosition() const { return m_Position; }
+	Vector3f GetDirection() const { return m_Direction; }
+
 	bool LifeCheck();
 
 	float GetShootTimer() const { return m_shootTimer; };
 	void SetShootTimer(float timer) { m_shootTimer = timer; };
 
+	float GetChangeDirTimer() const { return m_changedir_tick; };
+	void SetChangeDirTimer(float timer) { m_changedir_tick = timer; };
+
+	
+
 	void SetTeam(TEAM_TYPE type);
 	TEAM_TYPE GetTeam() const { return m_Team; }
+	DEPTH_TYPE GetDepthType() const { return m_DepthType; }
 	virtual bool Render();
 	virtual bool Update(float fTimeElapsed);
 };

@@ -10,12 +10,22 @@ class CSceneMgr
 {
 private:
 	CBackGround*		m_pBackGround;
+	CClimate*			m_pClimate;
+
 	Sound*				m_pSound;
 
 	int					m_Sound_BGM;
 	int					m_Sound_Explosion;
 
 	float				m_ShakeFactor;
+
+
+	GLuint				m_texcharacter[2];
+
+	GLuint				m_texbuilding[2];
+
+	GLuint				m_texParticle[2];
+
 
 	vector<CSolidCube*> Character;
 	vector<CSolidCube*> Building;

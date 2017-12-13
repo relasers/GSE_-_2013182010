@@ -34,6 +34,16 @@ void CSceneMgr::Initialize()
 	m_pSound->PlaySound(m_Sound_BGM, true, 0.2f);
 	
 
+	m_texcharacter[(int)DEPTH_TYPE::DEPTH_AIR] = g_Renderer->CreatePngTexture((char*)Texture_Unit[(int)DEPTH_TYPE::DEPTH_AIR].data());
+	m_texcharacter[(int)DEPTH_TYPE::DEPTH_GROUND] = g_Renderer->CreatePngTexture((char*)Texture_Unit[(int)DEPTH_TYPE::DEPTH_GROUND].data());
+
+	m_texbuilding[(int)TEAM_TYPE::TEAM_BLUE] = g_Renderer->CreatePngTexture((char*)Texture_Unit[(int)TEAM_TYPE::TEAM_BLUE].data());
+	m_texbuilding[(int)TEAM_TYPE::TEAM_RED] = g_Renderer->CreatePngTexture((char*)Texture_Unit[(int)TEAM_TYPE::TEAM_RED].data());
+
+	m_texParticle[(int)TEAM_TYPE::TEAM_BLUE] = g_Renderer->CreatePngTexture((char*)Texture_Particle[(int)TEAM_TYPE::TEAM_BLUE].data());
+	m_texParticle[(int)TEAM_TYPE::TEAM_RED] = g_Renderer->CreatePngTexture((char*)Texture_Particle[(int)TEAM_TYPE::TEAM_RED].data());
+
+
 	BuildObjects();
 }
 
@@ -56,6 +66,9 @@ void CSceneMgr::BuildObjects()
 	
 	m_pBackGround = new CBackGround(g_Renderer, Vector3f{ 0,0,0 }, (float)CLIENT_WIDTH, (float)CLIENT_HEIGHT, Color{0.7f,0.7f,0.7f,1});
 	m_pBackGround->SetTexture("Textures/BackGround.png");
+	
+	m_pClimate = new CClimate(g_Renderer, Vector3f{ 0,0,0 }, 2, Color{ 0.7f,0.7f,0.7f,1 });
+	m_pClimate->SetTexture("Textures/Snow.png");
 	//for (int i = 0; i < MAXOBJECT; ++i)
 	//{
 	//	Vector3f position = {-CLIENT_WIDTH/2 + rand()%CLIENT_WIDTH,-CLIENT_WIDTH / 2 + rand() % CLIENT_WIDTH ,0};
@@ -99,11 +112,11 @@ void CSceneMgr::Update(const double TimeElapsed)
 			direction, OBJECT_TYPE::OBJECT_CHARACTER);
 
 		character->SetTeam(TEAM_TYPE::TEAM_RED);
-
+		character->SetTexturePtr(m_texcharacter[(GLuint)character->GetDepthType()]);
 		Character.push_back(character);
 	}
 	
-
+	m_pClimate->Update(TimeElapsed);
 
 	/////////////// < 건물 업데이트 > ////////////////
 
@@ -122,7 +135,7 @@ void CSceneMgr::Update(const double TimeElapsed)
 			CSolidCube* bullet = new CSolidCube(g_Renderer,
 				elem->GetPosition(), direction, OBJECT_TYPE::OBJECT_BULLET);
 			bullet->SetTeam(elem->GetTeam());
-
+			bullet->SetPartTexturePtr(m_texParticle[(int)elem->GetTeam()]);
 			Bullet.push_back(bullet);
 
 		}
@@ -136,6 +149,44 @@ void CSceneMgr::Update(const double TimeElapsed)
 	for (auto& elem : Character) { 
 		elem->Update( TimeElapsed ); 
 		
+		// 상대의 화살이나 총알과 캐릭터 거리가 64이하일 경우
+		// 이를 0.2초마다 한번씩 회피하는 동작을 한다.
+		for (auto&elem2 : Bullet)
+		{
+			if (elem->GetTeam() != elem2->GetTeam())
+			{
+				CSolidCube* object = static_cast<CSolidCube*>(elem);
+				
+				if(object->GetChangeDirTimer() > 0.2f )
+				if (object->GetDepthType() == DEPTH_TYPE::DEPTH_AIR)
+				if (Length(object->GetPosition() - elem2->GetPosition()) < 64)
+				{
+					Vector3f dir = object->GetPosition() - elem2->GetPosition();
+					Normalize(dir);
+					object->SetDirection(Vector3f(dir.y, dir.x, 0));
+					object->SetChangeDirTimer(0.0f);
+				}
+			}
+		}
+
+		for (auto&elem2 : Arrow)
+		{
+			if (elem->GetTeam() != elem2->GetTeam())
+			{
+				CSolidCube* object = static_cast<CSolidCube*>(elem);
+				if (object->GetChangeDirTimer() > 0.2f)
+				if (object->GetDepthType() == DEPTH_TYPE::DEPTH_AIR)
+					if (Length(object->GetPosition() - elem2->GetPosition()) < 64)
+					{
+						Vector3f dir = object->GetPosition() - elem2->GetPosition();
+						Normalize(dir);
+						object->SetDirection(Vector3f(dir.y, dir.x, 0));
+						object->SetChangeDirTimer(0.0f);
+					}
+			}
+		}
+
+
 		// 각자의 쿨타임으로 판단한다.
 		if (elem->GetShootTimer() > 1.f)
 		{
@@ -337,7 +388,7 @@ void CSceneMgr::Render()
 	g_Renderer->SetSceneTransform(direction.x * m_ShakeFactor * 12, direction.y * m_ShakeFactor * 12 , 1, 1);
 
 	m_pBackGround->Render();
-
+	
 	for (auto& elem : Building) {	elem->Render(); }
 
 	for (auto& elem : Character) {	elem->Render(); }
@@ -345,6 +396,8 @@ void CSceneMgr::Render()
 	for (auto& elem : Bullet) { elem->Render(); }
 
 	for (auto& elem : Arrow) { elem->Render(); }
+
+	m_pClimate->Render();
 }
 
 void CSceneMgr::Input_Key(unsigned char key, int x, int y)
@@ -374,7 +427,7 @@ void CSceneMgr::Input_MouseButton(int button, int state, int x, int y)
 					direction, OBJECT_TYPE::OBJECT_CHARACTER);
 				
 				character->SetTeam(TEAM_TYPE::TEAM_BLUE);
-
+				character->SetTexturePtr(m_texcharacter[(GLuint)character->GetDepthType()]);
 				Character.push_back(character);
 				placement_tick = 0; // 2초의 쿨타임을 할당한다.
 				
