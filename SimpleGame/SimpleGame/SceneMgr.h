@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "SolidCube.h"
 #include "BackGround.h"
+#include "Effect.h"
 #include "Sound.h"
 
 class CSolidCube;
@@ -25,12 +26,13 @@ private:
 	GLuint				m_texbuilding[2];
 
 	GLuint				m_texParticle[2];
-
+	GLuint				m_texExplode;
 
 	vector<CSolidCube*> Character;
 	vector<CSolidCube*> Building;
 	vector<CSolidCube*> Bullet;
 	vector<CSolidCube*> Arrow;
+	vector<CEffect*> Explode;
 
 	Renderer *g_Renderer = NULL;
 

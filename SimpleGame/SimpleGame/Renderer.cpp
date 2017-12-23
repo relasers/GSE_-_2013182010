@@ -798,7 +798,7 @@ void Renderer::DrawTexturedRect(float x, float y, float z, float size, float r, 
 	GetGLPosition(x, y, &newX, &newY);
 
 	GLuint shader = m_SolidRectWithTextureShader;
-
+	
 	//Program select
 	glUseProgram(shader);
 

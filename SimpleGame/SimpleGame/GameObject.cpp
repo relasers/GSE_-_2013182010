@@ -33,6 +33,7 @@ CGameObject::CGameObject(Renderer * Renderer, Vector3f position, Vector3f direct
 		{
 			m_maxframe = Sprite_Unit_Seq[(int)DEPTH_TYPE::DEPTH_GROUND];
 			m_DepthType = DEPTH_TYPE::DEPTH_GROUND;
+			m_Speed *= 0.5;
 			m_RenderingLevel = LEVEL_GROUND_CHARACTER;
 		}
 		else 

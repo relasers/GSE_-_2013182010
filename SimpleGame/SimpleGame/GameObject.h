@@ -71,8 +71,8 @@ const Color Color_TEAM[2] = {
 };
 
 const Color Color_Character[2] = {
-	{ 1,0.3f,0.3f,1 },	// RED TEAM
-	{ 0.3f,0.3f,1,1 }		// BLUE TEAM
+	{ 1,0.7f,0.7f,1 },	// RED TEAM
+	{ 0.7f,0.7f,1,1 }		// BLUE TEAM
 };
 
 //{ 1,0.6942f,0.3978f,1 }
@@ -176,4 +176,6 @@ public:
 	DEPTH_TYPE GetDepthType() const { return m_DepthType; }
 	virtual bool Render();
 	virtual bool Update(float fTimeElapsed);
+
+	void SetTexturePtr(GLuint texture) { m_texCharacter = texture; }
 };

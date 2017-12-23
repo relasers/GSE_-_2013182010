@@ -43,7 +43,7 @@ void CSceneMgr::Initialize()
 	m_texParticle[(int)TEAM_TYPE::TEAM_BLUE] = g_Renderer->CreatePngTexture((char*)Texture_Particle[(int)TEAM_TYPE::TEAM_BLUE].data());
 	m_texParticle[(int)TEAM_TYPE::TEAM_RED] = g_Renderer->CreatePngTexture((char*)Texture_Particle[(int)TEAM_TYPE::TEAM_RED].data());
 
-
+	m_texExplode = g_Renderer->CreatePngTexture("./Textures/MagicBlast.png");
 	BuildObjects();
 }
 
@@ -249,7 +249,7 @@ void CSceneMgr::Update(const double TimeElapsed)
 	
 	for (auto& elem : Bullet) { elem->Update(TimeElapsed); }
 	for (auto& elem : Arrow) { elem->Update(TimeElapsed); }
-
+	for (auto& elem : Explode) { elem->Update(TimeElapsed); }
 	///////////////////////////////////////////////////////////////////////////////
 
 	for (auto& elem : Character) {
@@ -335,6 +335,21 @@ void CSceneMgr::Update(const double TimeElapsed)
 	for (std::vector<CSolidCube*>::iterator iter = Building.begin(); iter != Building.end(); ) {
 		if ((*iter)->LifeCheck())
 		{
+			for (int i = 0; i < 32; ++i)
+			{
+				Vector3f pos = (*iter)->GetPosition();
+
+				pos.x += rand() % 64 - (rand() % 128);
+				pos.y += rand() % 64 - (rand() % 128);
+				pos.z += rand() % 64 - (rand() % 128);
+
+				CEffect* effect = new CEffect(g_Renderer);
+				effect->SetPosition(pos);
+				effect->SetTexturePtr(m_texExplode);
+				Explode.push_back(effect);
+			}
+			
+
 			delete * iter;
 			*iter = NULL;
 			iter = Building.erase(iter);
@@ -348,6 +363,12 @@ void CSceneMgr::Update(const double TimeElapsed)
 	for (std::vector<CSolidCube*>::iterator iter = Character.begin(); iter != Character.end(); ) {
 		if ((*iter)->LifeCheck())
 		{
+
+			CEffect* effect = new CEffect(g_Renderer);
+			effect->SetPosition((*iter)->GetPosition());
+			effect->SetTexturePtr(m_texExplode);
+			Explode.push_back(effect);
+
 			delete * iter;
 			*iter = NULL;
 			iter = Character.erase(iter);
@@ -379,6 +400,18 @@ void CSceneMgr::Update(const double TimeElapsed)
 			++iter;
 	}
 
+	for (std::vector<CEffect*>::iterator iter = Explode.begin(); iter != Explode.end(); ) {
+		if ((*iter)->LifeCheck())
+		{
+			delete * iter;
+			*iter = NULL;
+
+			iter = Explode.erase(iter);
+		}
+		else
+			++iter;
+	}
+
 }
 
 void CSceneMgr::Render()
@@ -396,6 +429,8 @@ void CSceneMgr::Render()
 	for (auto& elem : Bullet) { elem->Render(); }
 
 	for (auto& elem : Arrow) { elem->Render(); }
+
+	for (auto& elem : Explode) { elem->Render(); }
 
 	m_pClimate->Render();
 }

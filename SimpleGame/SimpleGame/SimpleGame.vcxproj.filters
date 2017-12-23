@@ -75,6 +75,9 @@
     <ClInclude Include="Sound.h">
       <Filter>소스 파일\Utility\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>소스 파일\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>소스 파일\Utility\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>소스 파일\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
